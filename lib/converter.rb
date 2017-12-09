@@ -50,8 +50,9 @@ class Converter
 
   def braille_lookup
     @braille_array = []
+    special_chars = ["!", "'", ",", "-", ".", "?", " "]
     @char_array.each do |char|
-      if char == char.upcase && char != " "
+      if char == char.upcase && special_chars.include?(char) == false         # && char != " "
         @braille_array << CHARACTER_MAP["CAP"]
         @braille_array << CHARACTER_MAP[char.downcase]
       else
@@ -59,48 +60,98 @@ class Converter
       end
     end
     @braille_array
-    # if a capital letter, we want to strings (CAP) ".....0" + braille letter string
   end
-
-
-  # if @message.chars.count > 80
-  #   @chars_with_breaks = @char_array.map.with_index do |char, index|
-  #     if index % 80 == 0
-  #       insert()
-  #
-  #   end
 
   def braille_top
     @braille_top = @braille_array.map do |braille|
       braille[0..1]
     end
+    @braille_top = @braille_top.join
   end
 
   def braille_middle
     @braille_middle = @braille_array.map do |braille|
       braille[2..3]
     end
+    @braille_middle = @braille_middle.join
   end
 
   def braille_bottom
     @braille_bottom = @braille_array.map do |braille|
       braille[4..5]
     end
+    @braille_bottom = @braille_bottom.join
   end
 
-  # maybe put print methods in another class
-  def print_braille
-    @braille_top.join + "\n" +
-    @braille_middle.join + "\n" +
-    @braille_bottom.join
+  def top_slice
+    @top_slice_array = []
+    range_count = 1
+    factor = 79
+    loop_limit = (@braille_top.chars.count / 79.0).ceil
+    loop_count = 0
+    until loop_count == loop_limit
+      end_limit = factor * range_count
+      if range_count == 1
+        beg_limit = 0
+      else
+        beg_limit = (factor * (range_count -1)) + 1
+      end
+      @top_slice_array << @braille_top.slice(beg_limit..end_limit)
+      loop_count += 1
+      range_count += 1
+    end
+    @top_slice_array
   end
+
+  def middle_slice
+    @middle_slice_array = []
+    range_count = 1
+    factor = 79
+    loop_limit = (@braille_middle.chars.count / 79.0).ceil
+    loop_count = 0
+    until loop_count == loop_limit
+      end_limit = factor * range_count
+      if range_count == 1
+        beg_limit = 0
+      else
+        beg_limit = (factor * (range_count -1)) + 1
+      end
+      @middle_slice_array << @braille_middle.slice(beg_limit..end_limit)
+      loop_count += 1
+      range_count += 1
+    end
+    @middle_slice_array
+  end
+
+  def bottom_slice
+    @bottom_slice_array = []
+    range_count = 1
+    factor = 79
+    loop_limit = (@braille_bottom.chars.count / 79.0).ceil
+    loop_count = 0
+    until loop_count == loop_limit
+      end_limit = factor * range_count
+      if range_count == 1
+        beg_limit = 0
+      else
+        # beg_limit = end_limit + 1
+        beg_limit = (factor * (range_count -1)) + 1
+      end
+      @bottom_slice_array << @braille_bottom.slice(beg_limit..end_limit)
+      loop_count += 1
+      range_count += 1
+    end
+    @bottom_slice_array
+    binding.pry
+  end
+
 end
 
-converter = Converter.new("It Ran!")
-converter.message_chars
-converter.braille_lookup
-converter.braille_top
-converter.braille_middle
-converter.braille_bottom
-
-puts converter.print_braille
+# converter = Converter.new("It Ran!")
+# converter.message_chars
+# converter.braille_lookup
+# converter.braille_top
+# converter.braille_middle
+# converter.braille_bottom
+#
+# puts converter.print_braille

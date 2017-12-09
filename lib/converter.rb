@@ -49,12 +49,6 @@ class Converter
   end
 
   def braille_lookup
-    #--------------------------BEFORE CAPS-------------------------------------
-    # @braille_array = @char_array.map do |char|
-    #   CHARACTER_MAP[char]
-    # end
-    #--------------------------BEFORE CAPS-------------------------------------
-
     @braille_array = []
     @char_array.each do |char|
       if char == char.upcase && char != " "

@@ -1,8 +1,9 @@
+require 'pry'
 
 class Converter
   attr_reader :message
 
-  CHARACTER_MAP ={ .....0
+  CHARACTER_MAP ={
                  "a"=> "0.....",
                  "b"=>"0.0...",
                  "c"=>"00....",
@@ -30,32 +31,7 @@ class Converter
                  "y"=>"00.000",
                  "z"=>"0..000",
                  " "=>"......",
-                 "A"=> ".....00.....",
-                 "B"=>".....00.0...",
-                 "C"=>".....000....",
-                 "D"=>".....000.0..",
-                 "E"=>".....00..0..",
-                 "F"=>".....0000...",
-                 "G"=>".....00000..",
-                 "H"=>".....00.00..",
-                 "I"=>".....0.00...",
-                 "J"=>".....0.000..",
-                 "K"=>".....00...0.",
-                 "L"=>".....00.0.0.",
-                 "M"=>".....000..0.",
-                 "N"=>".....000.00.",
-                 "O"=>".....00..00.",
-                 "P"=>".....0000.0.",
-                 "Q"=> ".....000000.",
-                 "R"=>".....00.000.",
-                 "S"=>".....0.00.0.",
-                 "T"=>".....0.0000.",
-                 "U"=>".....00...00",
-                 "V"=>".....00.0.00",
-                 "W"=>".....0.000.0",
-                 "X"=>".....000..00",
-                 "Y"=>".....000.000",
-                 "Z"=>".....00..000",
+                 "CAP"=>".....0",
                  "!"=>"..000.",
                  "'"=>"....0.",
                  ","=>"..0...",
@@ -73,10 +49,32 @@ class Converter
   end
 
   def braille_lookup
-    @braille_array = @char_array.map do |char|
-      CHARACTER_MAP[char]
+    #--------------------------BEFORE CAPS-------------------------------------
+    # @braille_array = @char_array.map do |char|
+    #   CHARACTER_MAP[char]
+    # end
+    #--------------------------BEFORE CAPS-------------------------------------
+
+    @braille_array = []
+    @char_array.each do |char|
+      if char == char.upcase && char != " "
+        @braille_array << CHARACTER_MAP["CAP"]
+        @braille_array << CHARACTER_MAP[char.downcase]
+      else
+        @braille_array << CHARACTER_MAP[char]
+      end
     end
+    @braille_array
+    # if a capital letter, we want to strings (CAP) ".....0" + braille letter string
   end
+
+
+  # if @message.chars.count > 80
+  #   @chars_with_breaks = @char_array.map.with_index do |char, index|
+  #     if index % 80 == 0
+  #       insert()
+  #
+  #   end
 
   def braille_top
     @braille_top = @braille_array.map do |braille|
@@ -104,11 +102,11 @@ class Converter
   end
 end
 
-# converter = Converter.new("it ran")
-# converter.message_chars
-# converter.braille_lookup
-# converter.braille_top
-# converter.braille_middle
-# converter.braille_bottom
-#
-# puts converter.print_braille
+converter = Converter.new("It Ran!")
+converter.message_chars
+converter.braille_lookup
+converter.braille_top
+converter.braille_middle
+converter.braille_bottom
+
+puts converter.print_braille

@@ -66,6 +66,7 @@ class Converter
     @braille_top = @braille_array.map do |braille|
       braille[0..1]
     end
+    @braille_count = @braille_top.count
     @braille_top = @braille_top.join
   end
 
@@ -81,6 +82,10 @@ class Converter
       braille[4..5]
     end
     @braille_bottom = @braille_bottom.join
+  end
+
+  def braille_count
+    @braille_count
   end
 
   def top_slice
@@ -142,7 +147,21 @@ class Converter
       range_count += 1
     end
     @bottom_slice_array
-    binding.pry
+  end
+
+  def combine_to_braille_stacked
+    @braille_stacked = []
+    loop_limit = (@braille_bottom.chars.count / 79.0).ceil
+    loop_count = 0
+    index_count = 0
+    until loop_count == loop_limit
+      @braille_stacked << @top_slice_array[index_count] + "\n" +
+      @middle_slice_array[index_count] + "\n" +
+      @bottom_slice_array[index_count] + "\n"
+      index_count += 1
+      loop_count += 1
+      binding.pry
+    end
   end
 
 end

@@ -126,4 +126,21 @@ class ConverterTest < Minitest::Test
     assert converter.bottom_slice[0].chars.count == 80
   end
 
+  def test_combine_to_braille_stacked_equals_correct_number_of_characters
+    skip
+    converter = Converter.new("I like to run in the countryside with my pants off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+
+    converter.message_chars
+    converter.braille_lookup
+    converter.braille_top
+    converter.braille_middle
+    converter.braille_bottom
+    converter.top_slice
+    converter.middle_slice
+    converter.bottom_slice
+
+
+    assert_equal converter.braille_count, converter.combine_to_braille_stacked
+  end
+
 end

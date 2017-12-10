@@ -116,7 +116,7 @@ class ConverterTest < Minitest::Test
     assert converter.middle_slice[0].chars.count == 80
   end
 
-  def test_bottom_slice_returns_array_where_each_elements_character_count_less_than_80
+  def test_bottom_slice_returns_array_where_each_elements_character_count_equals_80
     converter = Converter.new("I like to run in the countryside with my pants off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
 
     converter.message_chars
@@ -124,6 +124,7 @@ class ConverterTest < Minitest::Test
     converter.braille_bottom
 
     assert converter.bottom_slice[0].chars.count == 80
+    assert converter.bottom_slice[1].chars.count == 80
   end
 
   def test_combine_to_braille_stacked_equals_correct_number_of_characters
@@ -140,7 +141,7 @@ class ConverterTest < Minitest::Test
     converter.bottom_slice
 
 
-    assert_equal converter.braille_count, converter.combine_to_braille_stacked
+    assert_equal converter.braille_count, converter.combine_to_braille_stacked[0].chars.count
   end
 
 end

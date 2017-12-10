@@ -135,11 +135,11 @@ class Converter
     loop_limit = (@braille_bottom.chars.count / 79.0).ceil
     loop_count = 0
     until loop_count == loop_limit
-      end_limit = factor * range_count
+      end_limit = (factor * range_count) + 1
       if range_count == 1
         beg_limit = 0
+        end_limit = 79
       else
-        # beg_limit = end_limit + 1
         beg_limit = (factor * (range_count -1)) + 1
       end
       @bottom_slice_array << @braille_bottom.slice(beg_limit..end_limit)
@@ -156,12 +156,12 @@ class Converter
     index_count = 0
     until loop_count == loop_limit
       @braille_stacked << @top_slice_array[index_count] + "\n" +
-      @middle_slice_array[index_count] + "\n" +
-      @bottom_slice_array[index_count] + "\n"
+                          @middle_slice_array[index_count] + "\n" +
+                          @bottom_slice_array[index_count] + "\n"
       index_count += 1
       loop_count += 1
-      binding.pry
     end
+    @braille_stacked
   end
 
 end

@@ -104,6 +104,11 @@ class ConverterTest < Minitest::Test
     converter.braille_top
 
     assert converter.top_slice[0].chars.count == 80
+    assert converter.top_slice[1].chars.count == 80
+    assert converter.top_slice[2].chars.count == 80
+    assert converter.top_slice[3].chars.count == 80
+    assert converter.top_slice[4].chars.count == 80
+    assert converter.top_slice[5].chars.count == 80
   end
 
   def test_middle_slice_returns_array_where_each_elements_character_count_less_than_80
@@ -114,6 +119,11 @@ class ConverterTest < Minitest::Test
     converter.braille_middle
 
     assert converter.middle_slice[0].chars.count == 80
+    assert converter.middle_slice[1].chars.count == 80
+    assert converter.middle_slice[2].chars.count == 80
+    assert converter.middle_slice[3].chars.count == 80
+    assert converter.middle_slice[4].chars.count == 80
+    assert converter.middle_slice[5].chars.count == 80
   end
 
   def test_bottom_slice_returns_array_where_each_elements_character_count_equals_80
@@ -125,6 +135,10 @@ class ConverterTest < Minitest::Test
 
     assert converter.bottom_slice[0].chars.count == 80
     assert converter.bottom_slice[1].chars.count == 80
+    assert converter.bottom_slice[2].chars.count == 80
+    assert converter.bottom_slice[3].chars.count == 80
+    assert converter.bottom_slice[4].chars.count == 80
+    assert converter.bottom_slice[5].chars.count == 80
   end
 
   def test_combine_to_braille_stacked_equals_correct_number_of_characters

@@ -95,9 +95,10 @@ class Converter
     loop_limit = (@braille_top.chars.count / 79.0).ceil
     loop_count = 0
     until loop_count == loop_limit
-      end_limit = factor * range_count
+      end_limit = (factor * range_count) + 1
       if range_count == 1
         beg_limit = 0
+        end_limit = 79
       else
         beg_limit = (factor * (range_count -1)) + 1
       end
@@ -115,9 +116,10 @@ class Converter
     loop_limit = (@braille_middle.chars.count / 79.0).ceil
     loop_count = 0
     until loop_count == loop_limit
-      end_limit = factor * range_count
+      end_limit = (factor * range_count) + 1
       if range_count == 1
         beg_limit = 0
+        end_limit = 79
       else
         beg_limit = (factor * (range_count -1)) + 1
       end
@@ -157,20 +159,30 @@ class Converter
     until loop_count == loop_limit
       @braille_stacked << @top_slice_array[index_count] + "\n" +
                           @middle_slice_array[index_count] + "\n" +
-                          @bottom_slice_array[index_count] + "\n"
+                          @bottom_slice_array[index_count] # + "\n"
       index_count += 1
       loop_count += 1
     end
     @braille_stacked
   end
 
+  def print_stack
+    @braille_stacked.each do |lines|
+      puts lines
+    end
+  end
+
 end
 
-# converter = Converter.new("It Ran!")
-# converter.message_chars
-# converter.braille_lookup
-# converter.braille_top
-# converter.braille_middle
-# converter.braille_bottom
-#
-# puts converter.print_braille
+converter = Converter.new("I like to run in the countryside with my pants off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+
+converter.message_chars
+converter.braille_lookup
+converter.braille_top
+converter.braille_middle
+converter.braille_bottom
+converter.top_slice
+converter.middle_slice
+converter.bottom_slice
+converter.combine_to_braille_stacked
+converter.print_stack

@@ -84,6 +84,7 @@ class Converter
     @braille_bottom = @braille_bottom.join
   end
 
+# every . or 0 is considered a braille character in this count
   def braille_count
     @braille_count
   end
@@ -95,12 +96,12 @@ class Converter
     loop_limit = (@braille_top.chars.count / 79.0).ceil
     loop_count = 0
     until loop_count == loop_limit
-      end_limit = (factor * range_count) + 1
+      end_limit = (factor * range_count) + (range_count - 1) # + 1
       if range_count == 1
         beg_limit = 0
         end_limit = 79
       else
-        beg_limit = (factor * (range_count -1)) + 1
+        beg_limit = (factor * (range_count -1)) + (range_count -1) # + 1
       end
       @top_slice_array << @braille_top.slice(beg_limit..end_limit)
       loop_count += 1
@@ -116,12 +117,12 @@ class Converter
     loop_limit = (@braille_middle.chars.count / 79.0).ceil
     loop_count = 0
     until loop_count == loop_limit
-      end_limit = (factor * range_count) + 1
+      end_limit = (factor * range_count) + (range_count - 1) # + 1
       if range_count == 1
         beg_limit = 0
         end_limit = 79
       else
-        beg_limit = (factor * (range_count -1)) + 1
+        beg_limit = (factor * (range_count -1)) + (range_count - 1)
       end
       @middle_slice_array << @braille_middle.slice(beg_limit..end_limit)
       loop_count += 1
@@ -137,12 +138,12 @@ class Converter
     loop_limit = (@braille_bottom.chars.count / 79.0).ceil
     loop_count = 0
     until loop_count == loop_limit
-      end_limit = (factor * range_count) + 1
+      end_limit = (factor * range_count) + (range_count - 1) # + 1
       if range_count == 1
         beg_limit = 0
         end_limit = 79
       else
-        beg_limit = (factor * (range_count -1)) + 1
+        beg_limit = (factor * (range_count -1)) + (range_count - 1) # + 1
       end
       @bottom_slice_array << @braille_bottom.slice(beg_limit..end_limit)
       loop_count += 1
@@ -174,15 +175,14 @@ class Converter
 
 end
 
-converter = Converter.new("I like to run in the countryside with my pants off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
-
-converter.message_chars
-converter.braille_lookup
-converter.braille_top
-converter.braille_middle
-converter.braille_bottom
-converter.top_slice
-converter.middle_slice
-converter.bottom_slice
-converter.combine_to_braille_stacked
-converter.print_stack
+# converter = Converter.new("I like to run in the countryside with my pants off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+# converter.message_chars
+# converter.braille_lookup
+# converter.braille_top
+# converter.braille_middle
+# converter.braille_bottom
+# converter.top_slice
+# converter.middle_slice
+# converter.bottom_slice
+# converter.combine_to_braille_stacked
+# converter.print_stack

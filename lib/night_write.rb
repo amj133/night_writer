@@ -7,3 +7,5 @@ output = ARGV[1]
 english = NightWriter.new
 english.convert_to_braille(input)
 english.output_new_file(output)
+
+# need to add output including english character count!!!

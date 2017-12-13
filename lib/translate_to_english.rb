@@ -40,19 +40,20 @@ class TranslateToEnglish
   end
 
   def english_lookup
-    braille_chars.map do |character|
+    @eng_lookup = braille_chars.map do |character|
       CHARACTER_MAP.invert[character]
     end
   end
 
   def add_upcase
-    english_lookup.map.with_index do |braille, index|
+    english_lookup.each_with_index do |braille, index|
       if braille == "CAP"
-        english_lookup[index + 1].upcase
-      else
-        braille
+        @eng_lookup[index + 1] = @eng_lookup[index + 1].upcase
+        @eng_lookup[index] = nil
       end
     end
+    @eng_lookup = @eng_lookup.compact
+    binding.pry
   end
 
   def print_eng

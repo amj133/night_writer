@@ -24,138 +24,110 @@ class ConverterTest < Minitest::Test
       converter.message_chars
   end
 
-  def test_braille_lookup_returns_braille_array
+  def test_braille_lookup_returns_array_of_braille_strings
     converter = Converter.new("it ran")
-
-    converter.message_chars
 
     assert_equal [".00...", ".0000.", "......", "0.000.", "0.....", "00.00."],
       converter.braille_lookup
-  end
 
-  def test_braille_lookup_does_not_capitalize_special_characters
-    converter = Converter.new("it! ran?")
+    converter2 = Converter.new("It! Ran?")
 
-    converter.message_chars
+    assert_equal [".....0", ".00...", ".0000.", "..000.", "......", ".....0", "0.000.", "0.....", "00.00.", "..0.00"],
+      converter2.braille_lookup
 
-    assert_equal [".00...", ".0000.", "..000.", "......", "0.000.", "0.....", "00.00.", "..0.00"],
-      converter.braille_lookup
+    converter3 = Converter.new(" !',-.?")
+
+    assert_equal ["......", "..000.", "....0.", "..0...", "....00", "..00.0", "..0.00"],
+      converter3.braille_lookup
   end
 
   def test_braille_top_returns_top_row_of_message
     converter = Converter.new("it ran")
 
-    converter.message_chars
-    converter.braille_lookup
-
     assert_equal ".0.0..0.0.00", converter.braille_top
   end
 
-  def test_braille_top_returns_top_row_of_message_with_caps
-    converter = Converter.new("It Ran")
+  def test_braille_top_returns_top_row_of_message_with_caps_and_special_chars
+    converter = Converter.new("It Ran!',")
 
-    converter.message_chars
-    converter.braille_lookup
-
-    assert_equal "...0.0....0.0.00", converter.braille_top
+    assert_equal "...0.0....0.0.00......", converter.braille_top
   end
 
   def test_braille_middle_row_of_message
     converter = Converter.new("it ran")
 
-    converter.message_chars
-    converter.braille_lookup
-
     assert_equal "0.00..00...0", converter.braille_middle
   end
 
-  def test_braille_middle_row_returns_middle_row_of_message_with_caps
-    converter = Converter.new("It Ran")
+  def test_braille_middle_row_returns_middle_row_of_message_with_caps_and_special_chars
+    converter = Converter.new("It Ran-.?")
 
-    converter.message_chars
-    converter.braille_lookup
-
-    assert_equal "..0.00....00...0", converter.braille_middle
+    assert_equal "..0.00....00...0..000.", converter.braille_middle
   end
 
   def test_braille_bottom_returns_bottom_row_of_message
     converter = Converter.new("it ran")
 
-    converter.message_chars
-    converter.braille_lookup
-
     assert_equal "..0...0...0.", converter.braille_bottom
   end
 
-  def test_braille_bottom_returns_bottom_row_of_message_with_caps
-    converter = Converter.new("It Ran")
+  def test_braille_bottom_returns_bottom_row_of_message_with_caps_and_special_chars
+    converter = Converter.new("It Ran!?-")
 
-    converter.message_chars
-    converter.braille_lookup
-
-    assert_equal ".0..0....00...0.", converter.braille_bottom
+    assert_equal ".0..0....00...0.0.0000", converter.braille_bottom
   end
 
-  def test_top_slice_returns_array_where_each_elements_character_count_less_than_80
-    converter = Converter.new("I like to run in the countryside with my pants off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+  def test_row_slicer_parses_braille_top_into_80_char_string_elements_in_an_array
+    converter = Converter.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
 
-    converter.message_chars
-    converter.braille_lookup
-    converter.braille_top
+    top_row = converter.braille_top
+    top_row_count = top_row.chars.count
+    top_sliced = converter.row_slicer(top_row)
 
-    assert converter.top_slice[0].chars.count == 80
-    assert converter.top_slice[1].chars.count == 80
-    assert converter.top_slice[2].chars.count == 80
-    assert converter.top_slice[3].chars.count == 80
-    assert converter.top_slice[4].chars.count == 80
-    assert converter.top_slice[5].chars.count == 80
+    assert top_sliced[0].chars.count == 80
+    assert top_sliced[1].chars.count == 80
+    assert top_sliced[2].chars.count == 80
+    assert top_sliced[3].chars.count == 80
+    assert top_sliced[4].chars.count == 80
+    assert top_sliced[5].chars.count == 80
+    assert top_sliced[6].chars.count == (top_row_count - 80 * 6)
   end
 
-  def test_middle_slice_returns_array_where_each_elements_character_count_less_than_80
-    converter = Converter.new("I like to run in the countryside with my pants off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+  def test_row_slicer_parses_braille_middle_into_80_char_string_elements_in_an_array
+    converter = Converter.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
 
-    converter.message_chars
-    converter.braille_lookup
-    converter.braille_middle
+    middle_row = converter.braille_middle
+    middle_row_count = middle_row.chars.count
+    middle_sliced = converter.row_slicer(middle_row)
 
-    assert converter.middle_slice[0].chars.count == 80
-    assert converter.middle_slice[1].chars.count == 80
-    assert converter.middle_slice[2].chars.count == 80
-    assert converter.middle_slice[3].chars.count == 80
-    assert converter.middle_slice[4].chars.count == 80
-    assert converter.middle_slice[5].chars.count == 80
+    assert middle_sliced[0].chars.count == 80
+    assert middle_sliced[1].chars.count == 80
+    assert middle_sliced[2].chars.count == 80
+    assert middle_sliced[3].chars.count == 80
+    assert middle_sliced[4].chars.count == 80
+    assert middle_sliced[5].chars.count == 80
+    assert middle_sliced[6].chars.count == (middle_row_count - 80 * 6)
+  end
+#
+  def test_row_slicer_parses_braille_bottom_into_80_char_string_elements_in_an_array
+    converter = Converter.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+
+    bottom_row = converter.braille_bottom
+    bottom_row_count = bottom_row.chars.count
+    bottom_sliced = converter.row_slicer(bottom_row)
+
+    assert bottom_sliced[0].chars.count == 80
+    assert bottom_sliced[1].chars.count == 80
+    assert bottom_sliced[2].chars.count == 80
+    assert bottom_sliced[3].chars.count == 80
+    assert bottom_sliced[4].chars.count == 80
+    assert bottom_sliced[5].chars.count == 80
+    assert bottom_sliced[6].chars.count == (bottom_row_count - 80 * 6)
   end
 
-  def test_bottom_slice_returns_array_where_each_elements_character_count_equals_80
-    converter = Converter.new("I like to run in the countryside with my pants off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+  def test_stacked_braille_rows_returns_array_with_each_element_containing_three_braille_lines
+    converter = Converter.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
 
-    converter.message_chars
-    converter.braille_lookup
-    converter.braille_bottom
-
-    assert converter.bottom_slice[0].chars.count == 80
-    assert converter.bottom_slice[1].chars.count == 80
-    assert converter.bottom_slice[2].chars.count == 80
-    assert converter.bottom_slice[3].chars.count == 80
-    assert converter.bottom_slice[4].chars.count == 80
-    assert converter.bottom_slice[5].chars.count == 80
-  end
-
-  def test_combine_to_braille_stacked_equals_correct_number_of_characters
-    skip
-    converter = Converter.new("I like to run in the countryside with my pants off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
-
-    converter.message_chars
-    converter.braille_lookup
-    converter.braille_top
-    converter.braille_middle
-    converter.braille_bottom
-    converter.top_slice
-    converter.middle_slice
-    converter.bottom_slice
-
-
-    assert_equal converter.braille_count, converter.combine_to_braille_stacked[0].chars.count
   end
 
 end

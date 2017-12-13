@@ -37,4 +37,6 @@ module BrailleDictionary
                  "?"=>"..0.00",
                 }
 
+  SPECIAL_CHARS = ["!", "'", ",", "-", ".", "?", " "]
+
 end

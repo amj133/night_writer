@@ -1,84 +1,84 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
-require './lib/converter'
+require './lib/eng_to_braille'
 
-class ConverterTest < Minitest::Test
+class EngToBrailleTest < Minitest::Test
 
   def test_it_exists
-    converter = Converter.new("hello world")
+    converter = EngToBraille.new("hello world")
 
-    assert_instance_of Converter, converter
+    assert_instance_of EngToBraille, converter
   end
 
   def test_converter_stores_message_as_attribute
-    converter = Converter.new("hello world")
+    converter = EngToBraille.new("hello world")
 
     assert_equal "hello world", converter.message
   end
 
   def test_message_chars_returns_message_character_array
-    converter = Converter.new("hello world")
+    converter = EngToBraille.new("hello world")
 
     assert_equal ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'],
       converter.message_chars
   end
 
   def test_braille_lookup_returns_array_of_braille_strings
-    converter = Converter.new("it ran")
+    converter = EngToBraille.new("it ran")
 
     assert_equal [".00...", ".0000.", "......", "0.000.", "0.....", "00.00."],
       converter.braille_lookup
 
-    converter2 = Converter.new("It! Ran?")
+    converter2 = EngToBraille.new("It! Ran?")
 
     assert_equal [".....0", ".00...", ".0000.", "..000.", "......", ".....0", "0.000.", "0.....", "00.00.", "..0.00"],
       converter2.braille_lookup
 
-    converter3 = Converter.new(" !',-.?")
+    converter3 = EngToBraille.new(" !',-.?")
 
     assert_equal ["......", "..000.", "....0.", "..0...", "....00", "..00.0", "..0.00"],
       converter3.braille_lookup
   end
 
   def test_braille_top_returns_top_row_of_message
-    converter = Converter.new("it ran")
+    converter = EngToBraille.new("it ran")
 
     assert_equal ".0.0..0.0.00", converter.braille_top
   end
 
   def test_braille_top_returns_top_row_of_message_with_caps_and_special_chars
-    converter = Converter.new("It Ran!',")
+    converter = EngToBraille.new("It Ran!',")
 
     assert_equal "...0.0....0.0.00......", converter.braille_top
   end
 
   def test_braille_middle_row_of_message
-    converter = Converter.new("it ran")
+    converter = EngToBraille.new("it ran")
 
     assert_equal "0.00..00...0", converter.braille_middle
   end
 
   def test_braille_middle_row_returns_middle_row_of_message_with_caps_and_special_chars
-    converter = Converter.new("It Ran-.?")
+    converter = EngToBraille.new("It Ran-.?")
 
     assert_equal "..0.00....00...0..000.", converter.braille_middle
   end
 
   def test_braille_bottom_returns_bottom_row_of_message
-    converter = Converter.new("it ran")
+    converter = EngToBraille.new("it ran")
 
     assert_equal "..0...0...0.", converter.braille_bottom
   end
 
   def test_braille_bottom_returns_bottom_row_of_message_with_caps_and_special_chars
-    converter = Converter.new("It Ran!?-")
+    converter = EngToBraille.new("It Ran!?-")
 
     assert_equal ".0..0....00...0.0.0000", converter.braille_bottom
   end
 
   def test_row_slicer_parses_braille_top_into_80_char_string_elements_in_an_array
-    converter = Converter.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+    converter = EngToBraille.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
 
     top_row = converter.braille_top
     top_row_count = top_row.chars.count
@@ -94,7 +94,7 @@ class ConverterTest < Minitest::Test
   end
 
   def test_row_slicer_parses_braille_middle_into_80_char_string_elements_in_an_array
-    converter = Converter.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+    converter = EngToBraille.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
 
     middle_row = converter.braille_middle
     middle_row_count = middle_row.chars.count
@@ -110,7 +110,7 @@ class ConverterTest < Minitest::Test
   end
 #
   def test_row_slicer_parses_braille_bottom_into_80_char_string_elements_in_an_array
-    converter = Converter.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+    converter = EngToBraille.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
 
     bottom_row = converter.braille_bottom
     bottom_row_count = bottom_row.chars.count
@@ -126,7 +126,7 @@ class ConverterTest < Minitest::Test
   end
 
   def test_stacked_braille_rows_returns_array_with_each_element_containing_three_braille_lines
-    converter = Converter.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+    converter = EngToBraille.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
 
   end
 

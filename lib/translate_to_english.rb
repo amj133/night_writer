@@ -24,6 +24,7 @@ class TranslateToEnglish
     nested_message
   end
 
+# use destructive slice!!!!
   def braille_chars
     braille_strings = []
     create_nested.each do |braille|

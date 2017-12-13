@@ -4,8 +4,8 @@ require 'pry'
 input = ARGV[0]
 output = ARGV[1]
 
-english = NightWriter.new
-english.convert_to_braille(input)
-english.output_new_file(output)
+night_write = NightWriter.new
+night_write.read_file(input)
+night_write.output_new_file(output)
 
-# need to add output including english character count!!!
+puts "Created '#{output}' containing #{night_write.message.chars.count} characters"

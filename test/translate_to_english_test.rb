@@ -42,7 +42,7 @@ class TranslateToEnglishTest < Minitest::Test
   def test_english_lookup_returns_array_of_english_characters
     translate = TranslateToEnglish.new(["0.0.0.0.0....00.0.0.00", "00.00.0..0..00.0000..0", "....0.0.0....00.0.0..."])
 
-    assert_equal ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'], translate.english_lookup
+    assert_equal ['CAP', 'h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'], translate.english_lookup
 
     translate2 = TranslateToEnglish.new(["0.0.0.0.0....00.0.0.00", "00.00.0..0..00.0000..0", "....0.0.0....00.0.0...", "0.0.0.0.0....00.0.0.00", "00.00.0..0..00.0000..0", "....0.0.0....00.0.0..."])
 

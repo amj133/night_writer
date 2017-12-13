@@ -1,54 +1,27 @@
 require 'pry'
-require './lib/converter.rb'
+require './lib/eng_to_braille'
 
 class NightWriter
-
-  # def initialize
-  # end
+  attr_reader :message
 
   def read_file(filename)
-    @message = File.read("./lib/" + filename).chop
+    @message = File.read("./" + filename).chop
   end
 
-  def convert_to_braille(filename)
-    read_file(filename)
-    converter = Converter.new(@message)
-    converter.message_chars
-    converter.braille_lookup
-    converter.braille_top
-    converter.braille_middle
-    converter.braille_bottom
-    converter.top_slice
-    converter.middle_slice
-    converter.bottom_slice
-    converter.combine_to_braille_stacked
-    @braille_print = converter.print_stack
+  def remove_line_breaks
+    @message = @message.gsub("\n", " ")
+  end
+
+  def convert_to_braille
+    braille_message = EngToBraille.new(remove_line_breaks)
+    braille_message.stacked_braille_rows
   end
 
   def output_new_file(filename)
-    output = File.new("./lib/" + filename, "w+")
+    output = File.new("./" + filename, "w+")
     File.open(output, "w+") do |file|
-      file.puts @braille_print
+      file.puts convert_to_braille
     end
   end
 
 end
-
-# joe = NightWriter.new
-# joe.convert_to_braille("message.txt")
-# joe.output_new_file
-
-
-#---------------------------------------
-# puts File.read("./lib/message.txt")
-#---------------------------------------
-
-#---------------------------------------
-# old_file = File.open("message.txt", "w+")
-# message = puts old_file.read
-# # old_file = File.read("message.txt", "w+")
-# old_file.close
-#---------------------------------------
-
-
-# new_file = File.new("braille.txt", "w+")

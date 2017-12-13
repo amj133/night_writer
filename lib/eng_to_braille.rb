@@ -1,7 +1,7 @@
 require 'pry'
 require './lib/braille_dictionary'
 
-class Converter
+class EngToBraille
   include BrailleDictionary
 
   attr_reader :message
@@ -64,8 +64,8 @@ class Converter
     count = 0
     until count == find_slicer_numb
       stacked_rows << row_slicer(braille_top)[count] + "\n" +
-                          row_slicer(braille_middle)[count] + "\n" +
-                          row_slicer(braille_bottom)[count]
+        row_slicer(braille_middle)[count] + "\n" +
+        row_slicer(braille_bottom)[count]
       count += 1
     end
     stacked_rows
@@ -73,10 +73,5 @@ class Converter
 
 end
 
-converter = Converter.new(" !',-.?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-# converter.message_chars
-# converter.braille_lookup
-# converter.braille_top
-# converter.braille_middle
-# converter.braille_bottom
-puts converter.stacked_braille_rows
+# converter = EngToBraille.new(" !',-.?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+# puts converter.stacked_braille_rows

@@ -16,7 +16,8 @@ class NightReader
 
   def convert_to_eng
     eng_message = BrailleToEng.new(remove_line_breaks)
-    eng_message.add_upcase.join
+    eng_lookup = eng_message.english_lookup
+    eng_message.add_upcase(eng_lookup).join
   end
 
   def output_new_file(filename)

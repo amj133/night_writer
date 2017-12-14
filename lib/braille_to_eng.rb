@@ -39,8 +39,8 @@ class BrailleToEng
     end
   end
 
-  def add_upcase
-    english_lookup.each_with_index do |braille, index|
+  def add_upcase(eng_lookup)
+    eng_lookup.each_with_index do |braille, index|
       if braille == "CAP"
         @eng_lookup[index + 1] = @eng_lookup[index + 1].upcase
         @eng_lookup[index] = nil
@@ -48,5 +48,5 @@ class BrailleToEng
     end
     @eng_lookup = @eng_lookup.compact
   end
-  
+
 end

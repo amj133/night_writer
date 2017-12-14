@@ -28,13 +28,7 @@ class NightWriterTest < Minitest::Test
     assert_equal "I like to fly in the sky! My bees are the knees? !?',-. To another great cocktail", night_write.message
   end
 
-  def test_char_count_returns_correct_number_of_characters
-    night_write = NightWriter.new
-
-    assert_equal 11, night_write.char_count("hello world")
-  end
-
-  def test_convert_to_praill_returns_braille_message_with_stacked_rows
+  def test_convert_to_braille_returns_braille_message_with_stacked_rows
     night_write = NightWriter.new
 
     night_write.read_file("test/message_test1.txt")

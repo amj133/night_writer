@@ -52,11 +52,15 @@ class BrailleToEngTest < Minitest::Test
   def test_add_upcase_capitalizes_correct_characters
     translate = BrailleToEng.new(["..0.0.0.0.0....00.0.0.00", "..00.00.0..0..00.0000..0", ".0....0.0.0....00.0.0..."])
 
-    assert_equal ['H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'], translate.add_upcase
+    eng_lookup = translate.english_lookup
+
+    assert_equal ['H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'], translate.add_upcase(eng_lookup)
 
     translate2 = BrailleToEng.new(["..0.0.0.0.0......00.0.0.00", "..00.00.0..0....00.0000..0", ".0....0.0.0....0.00.0.0..."])
 
-    assert_equal ['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd'], translate2.add_upcase
+    eng_lookup2 = translate2.english_lookup
+
+    assert_equal ['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd'], translate2.add_upcase(eng_lookup2)
   end
 
 end

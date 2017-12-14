@@ -126,8 +126,9 @@ class EngToBrailleTest < Minitest::Test
   end
 
   def test_stacked_braille_rows_returns_array_with_each_element_containing_three_braille_lines
-    converter = EngToBraille.new("I like to run in the countryside with my shirt off and tied around my neck especially during the hot august summers.  There is something about the sun on my buttocks that makes me feel special, like a mountain lion or an orangutang on the hunt for food.")
+    converter = EngToBraille.new("hello world")
 
+    assert_equal ["0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0..."], converter.stacked_braille_rows
   end
 
 end

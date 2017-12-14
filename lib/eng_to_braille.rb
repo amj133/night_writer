@@ -72,6 +72,3 @@ class EngToBraille
   end
 
 end
-
-# converter = EngToBraille.new(" !',-.?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-# puts converter.stacked_braille_rows
